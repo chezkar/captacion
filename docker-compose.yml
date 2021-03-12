@@ -1,0 +1,30 @@
+# For more information: https://laravel.com/docs/sail
+version: '3.8'
+services:
+    web:
+        image: 'captacion-php'
+        ports:
+            - '8000:8000'
+        volumes: 
+            - ./:/app
+        command: php artisan serve --host=0.0.0.0
+        links:
+            - "mysql"
+            - "mailtrap"
+
+    mysql:
+        image: 'mysql:8'
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'mysql-db:/var/lib/mysql'
+    
+    mailtrap:
+        image: 'eaudeweb/mailtrap'
+        ports:
+            - '8081:80'
+
+volumes:
+    mysql-db:
